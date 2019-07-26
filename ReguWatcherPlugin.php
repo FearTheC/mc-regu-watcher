@@ -32,7 +32,7 @@ use FearTheC\ReguWatcher\RuntimesRepository;
  *
  * @author Bonaventure Quentin
  */
-class ReguWatcherPlugin {
+class ReguWatcherPlugin implements ManialinkPageAnswerListener, Plugin {
 
   const PLUGIN_ID = 208;
   const PLUGIN_VERSION = 0.1;
