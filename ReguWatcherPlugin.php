@@ -139,7 +139,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
   public function handlePlayerConnect(Player $player)
   {
-    $this->repository->initPlayer($player, $this->maniaControl->getMapManager()->getCurrentMap());
+    $this->repository->initPlayer($player, );
     // $playerTimes = $this->fetchPlayerTimes($player);
   }
 
@@ -193,25 +193,27 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
   public function handlePlayerGiveUpCallback(BasePlayerTimeStructure $structure) {
-          $this->displayTimes();
+    var_dump($structure);
+    //$this->repository->saveRuntime($player, $map, $time);
+    $this->displayTimes();
   }
 
 
 
   public function handleFinishCallback(OnWayPointEventStructure $structure) {
-//        $this->setRunTime($structure->getLogin(),$structure->getRaceTime());
-
-      $this->saveRuntime($structure);
-
-      $this->displayTimes();
+    $this->repository->saveRuntime($player, $map, $time);
+    $this->displayTimes();
   }
 
 
-  public function saveRuntime(OnWayPointEventStructure $structure) {
-    
+  public function saveRuntime(Player $player, Map $map, $time) {
+    // $this->repository->saveRuntime($player, $map, $time);
   }
 
-
+  private function getCurrentMap()
+  {
+    return $this->maniaControl->getMapManager()->getCurrentMap();
+  }
 
 
   /**
