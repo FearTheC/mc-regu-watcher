@@ -137,9 +137,10 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
 
-  private function handlePlayerConnet(Player $player)
+  public function handlePlayerConnect(Player $player)
   {
-      $playerTimes = $this->fetchPlayerTimes($player);
+    $this->repository->initPlayer($player, $this->maniaControl->getMapManager()->getCurrentMap());
+    // $playerTimes = $this->fetchPlayerTimes($player);
   }
 
 
@@ -204,6 +205,12 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
       $this->displayTimes();
   }
+
+
+  public function saveRuntime(OnWayPointEventStructure $structure) {
+    
+  }
+
 
 
 
@@ -274,91 +281,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
       $maniaLink->addChild($frame);
       $frame->setPosition($posX, $posY);
 
-
-      // Obtain a list of columns
-      $nbCPs = array();
-      $CPTime = array();
-      foreach ($this->ranking as $key => $row) {
-          $nbCPs[$key] = $row['cp'];
-          $CPTime[$key] = $row['cptime'];
-      }
-
-      // Sort the data with nbCPs descending, CPTime ascending
-      array_multisort($nbCPs, SORT_DESC, $CPTime, SORT_ASC, $this->ranking);
-
-
-      $cpt = 0;
-      foreach ($this->ranking as $loginName => $record) {
-          $cpt++;
-          if ($cpt >= $lines) {
-              break;
-          }
-
-          $time = Formatter::formatTime($record['cptime']);
-
-          $player = $this->maniaControl->getPlayerManager()->getPlayer($loginName);
-
-          $y = - $cpt * $lineHeight;
-
-          $recordFrame = new Frame();
-          $frame->addChild($recordFrame);
-          $recordFrame->setPosition(0, $y + 13);
-
-          //Image
-          $quadCP = new Quad_Icons64x64_1();
-          $recordFrame->addChild($quadCP);
-          $quadCP->setX($width * -0.47 + 0.2);
-
-          //Rank
-          $rankLabel = new Label_Text();
-          $recordFrame->addChild($rankLabel);
-          $rankLabel->setHorizontalAlign($rankLabel::LEFT);
-          $rankLabel->setX($width * -0.47);
-          //$rankLabel->setSize($width * 0.06, $lineHeight);
-          $rankLabel->setSize($width, $lineHeight);
-          $rankLabel->setTextSize(1);
-          //$rankLabel->setTextPrefix('$o');
-          //$label->setUrl();
-
-          if ($this->nbCp==$record['cp']) {
-              $rankLabel->setText('');
-              $quadCP->setSubStyle($quadCP::SUBSTYLE_Finish);
-              $quadCP->setSize(5, 5);
-          } else {
-              $rankLabel->setText(' $F93' . $record['cp']);
-              $quadCP->setSubStyle($quadCP::SUBSTYLE_ArrowBlue);
-              $quadCP->setSize(2, 5);
-          }
-
-          $rankLabel->setTextEmboss(true);
-
-          //Name
-          $nameLabel = new Label_Text();
-          $recordFrame->addChild($nameLabel);
-          $nameLabel->setHorizontalAlign($nameLabel::LEFT);
-          $nameLabel->setX($width * -0.4);
-          $nameLabel->setSize($width * 0.6, $lineHeight);
-          $nameLabel->setTextSize(1);
-          $nameLabel->setText('   ' . $player->nickname);
-          $nameLabel->setTextEmboss(true);
-
-          //Time
-          $timeLabel = new Label_Text();
-          $recordFrame->addChild($timeLabel);
-          $timeLabel->setHorizontalAlign($timeLabel::RIGHT);
-          $timeLabel->setX($width * 0.47);
-          $timeLabel->setSize($width * 0.25, $lineHeight);
-          $timeLabel->setTextSize(1);
-          $timeLabel->setText($time);
-          $timeLabel->setTextEmboss(true);
-
-          //Quad with Spec action
-          $quad = new Quad();
-          $recordFrame->addChild($quad);
-          $quad->setStyles(Quad_Bgs1InRace::STYLE, Quad_Bgs1InRace::SUBSTYLE_BgCardList);
-          $quad->setSize($width, $lineHeight);
-          $quad->setAction(self::ACTION_SPEC . '.' . $player->login);
-      }
 
       $this->maniaControl->getManialinkManager()->sendManialink($maniaLink, false);
   }
