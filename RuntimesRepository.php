@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `" . self::DB_TABLE . "` (
   ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1
 EOT;
 
-  const INIT_RUNTIMES_QUERY * <<<'EOT'
+  const INIT_RUNTIMES_QUERY = <<<'EOT'
 CREATE TABLE IF NOT EXISTS `".self::DB_TIMES_TABLE. "` (
      `cursor_nb` int(4) NOT NULL,
      `mapIndex` int(11) NOT NULL,

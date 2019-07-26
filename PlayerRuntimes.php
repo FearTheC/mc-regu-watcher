@@ -11,7 +11,7 @@ class PlayerRuntimes
   /**
    * @param PlayerRuntimesCollection;
    */
-  private $runtimesCollection
+  private $runtimesCollection;
 
 
 

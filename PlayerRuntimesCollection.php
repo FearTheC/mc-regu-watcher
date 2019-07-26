@@ -11,7 +11,7 @@ class PlayerRuntimesCollection
 
   private $currentCursor;
 
-  private function __construct(array Runtimes)
+  private function __construct(array $runtimes)
   {
 
   }
