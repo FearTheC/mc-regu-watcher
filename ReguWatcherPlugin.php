@@ -139,7 +139,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
   public function handlePlayerConnect(Player $player)
   {
-    $this->repository->initPlayer($player, );
+    $this->repository->initPlayer($player, $this->getCurrentMap());
     // $playerTimes = $this->fetchPlayerTimes($player);
   }
 
