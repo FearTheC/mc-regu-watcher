@@ -201,7 +201,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
   public function handleFinishCallback(OnWayPointEventStructure $structure) {
-    $this->repository->saveRuntime($player, $map, $time);
+    // $this->repository->saveRuntime($player, $map, $time);
     $this->displayTimes();
   }
 
