@@ -32,7 +32,7 @@ use FearTheC\ReguWatcher\RuntimesRepository;
  *
  * @author Bonaventure Quentin
  */
-class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener, TimerListener, Plugin {
+class ReguWatcherPlugin {
 
   const PLUGIN_ID = 208;
   const PLUGIN_VERSION = 0.1;
@@ -82,7 +82,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
       $this->maniaControl = $maniaControl;
 
       $this->repository = new RuntimesRepository($mysqli = $this->maniaControl->getDatabase()->getMysqli());
-
       $this->recordWidget = new RecordWidget($this->maniaControl);
 
       // Callbacks
@@ -116,7 +115,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
    * @see \ManiaControl\Plugins\Plugin::unload()
    */
   public function unload() {
-
       $this->closeWidget(self::MLID_CHAPOLIVE_WIDGET);
       $this->closeWidget(self::MLID_CHAPOLIVE_WIDGETTIMES);
   }
@@ -138,10 +136,60 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
   }
 
 
+
   private function handlePlayerConnet(Player $player)
   {
       $playerTimes = $this->fetchPlayerTimes($player);
   }
+
+
+
+  public function handlePlayerInfoChanged(Player $player) {
+      unset($this->ranking[$player->login]);
+//        if (!$player->isSpectator)
+//          $this->setOneRanking($player->login, 0, 0);
+      $this->displayTimes();
+  }
+
+
+
+  public function handleSpec(array $callback) {
+      $actionId    = $callback[1][2];
+      $actionArray = explode('.', $actionId, 3);
+      if(count($actionArray) < 2){
+          return;
+      }
+      $action      = $actionArray[0] . '.' . $actionArray[1];
+
+      if (count($actionArray) > 2) {
+
+          switch ($action) {
+              case self::ACTION_SPEC:
+                  $adminLogin = $callback[1][1];
+                  $targetLogin = $actionArray[2];
+                  $player = $this->maniaControl->getPlayerManager()->getPlayer($adminLogin);
+                  if ($player->isSpectator) {
+                      $this->maniaControl->getClient()->forceSpectatorTarget($adminLogin, $targetLogin, -1);
+                  } else {
+                      $this->maniaControl->getClient()->forceSpectator($adminLogin,3);
+                  }
+          }
+      }
+  }
+
+
+
+  /**
+   * Handle PlayerDisconnect callback
+   *
+   * @param Player $player
+   */
+  public function handlePlayerDisconnect(Player $player) {
+      unset($this->ranking[$player->login]);
+      $this->displayTimes();
+  }
+
+
 
   public function handlePlayerGiveUpCallback(BasePlayerTimeStructure $structure) {
           $this->displayTimes();
@@ -214,7 +262,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
    * Displays Times Widget : Cp player Time
    */
   public function displayTimes() {
-
       $lines = $this->maniaControl->getSettingManager()->getSettingValue($this, self::SETTING_LINESCOUNT);
       $lineHeight = $this->maniaControl->getSettingManager()->getSettingValue($this, self::SETTING_LINE_HEIGHT);
       $posX = $this->maniaControl->getSettingManager()->getSettingValue($this, self::SETTING_POSX);
@@ -315,6 +362,82 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
       $this->maniaControl->getManialinkManager()->sendManialink($maniaLink, false);
   }
+
+
+
+  /**
+   * Update Widgets on Setting Changes
+   *
+   * @param Setting $setting
+   */
+  public function updateSettings(Setting $setting) {
+      if ($setting->belongsToClass($this)) {
+          $this->displayWidgets();
+      }
+  }
+
+
+
+  /**
+   * @see \ManiaControl\Plugins\Plugin::getId()
+   */
+  public static function getId() {
+      return self::PLUGIN_ID;
+  }
+
+
+
+  /**
+   * @see \ManiaControl\Plugins\Plugin::getName()
+   */
+  public static function getName() {
+      return self::PLUGIN_NAME;
+  }
+
+
+
+  /**
+   * @see \ManiaControl\Plugins\Plugin::getVersion()
+   */
+  public static function getVersion() {
+      return self::PLUGIN_VERSION;
+  }
+
+
+  /**
+   * @see \ManiaControl\Plugins\Plugin::getAuthor()
+   */
+  public static function getAuthor() {
+      return self::PLUGIN_AUTHOR;
+  }
+
+
+
+  /**
+   * @see \ManiaControl\Plugins\Plugin::getDescription()
+   */
+  public static function getDescription() {
+      return self::FRAME_DESCRIPTION;
+  }
+
+
+
+  public static function prepare(ManiaControl $maniaControl) {
+
+  }
+
+
+
+  /**
+   * Close a Widget
+   *
+   * @param string $widgetId
+   */
+  public function closeWidget($widgetId) {
+      $this->maniaControl->getManialinkManager()->hideManialink($widgetId);
+  }
+
+
 
 
 }
