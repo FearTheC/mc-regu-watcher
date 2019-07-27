@@ -39,15 +39,21 @@ EOT;
 INSERT IGNORE INTO `%s` (mapIndex, playerIndex)
 VALUES (%d, %d);
 EOT;
- 
+
+  const SELECT_PLAYER = <<<'EOT'
+SELECT * FROM `%s`
+LEFT JOIN ftc_regularity_watcher_times times ON times.mapIndex = mapIndex AND times.playerIndex = playerIndex
+WHERE playerIndex = %d AND mapIndex = %d
+EOT;
+
 
   /**
-   * @param \mysqli $mysqliClient 
+   * @param \mysqli $mysqliClient
    */
   private $mysqliClient;
 
   public function __construct(\mysqli $mysqliClient)
-  { 
+  {
     $this->mysqliClient = $mysqliClient;
     $this->initTables();
   }
@@ -55,7 +61,6 @@ EOT;
 
   private function initTables()
   {
-    
     $this->query(sprintf(self::INIT_PLAYER_QUERY, self::DB_TABLE));
     $this->query(sprintf(self::INIT_RUNTIMES_QUERY, self::DB_TIMES_TABLE));
   }
@@ -63,8 +68,25 @@ EOT;
 
   public function initPlayer(Player $player, Map $map)
   {
-    $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
+    $player = $this->selectPlayer($player, $map);
+    var_dump($player);
+
+    if (!$player) {
+      $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
+      $player =
+    }
+
+
   }
+
+
+  public function selectPlayer(Player $player, Map $map)
+  {
+    $result = $this->query(sprintf(self::SELECT_PLAYER, self::DB_TABLE, $player->index, $map->index));
+    return $result->fetch_all();
+  }
+
+
 
 
   private function query($query)

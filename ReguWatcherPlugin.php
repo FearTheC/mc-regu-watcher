@@ -137,23 +137,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
 
-  public function handlePlayerConnect(Player $player)
-  {
-    $this->repository->initPlayer($player, $this->getCurrentMap());
-    // $playerTimes = $this->fetchPlayerTimes($player);
-  }
-
-
-
-  public function handlePlayerInfoChanged(Player $player) {
-      unset($this->ranking[$player->login]);
-//        if (!$player->isSpectator)
-//          $this->setOneRanking($player->login, 0, 0);
-      $this->displayTimes();
-  }
-
-
-
   public function handleSpec(array $callback) {
       $actionId    = $callback[1][2];
       $actionArray = explode('.', $actionId, 3);
@@ -180,6 +163,24 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
 
+  public function handlePlayerInfoChanged(Player $player) {
+      unset($this->ranking[$player->login]);
+//        if (!$player->isSpectator)
+//          $this->setOneRanking($player->login, 0, 0);
+      $this->displayTimes();
+  }
+
+
+
+  public function handlePlayerConnect(Player $player)
+  {
+    $player = $this->repository->initPlayer($player, $this->getCurrentMap());
+
+    
+  }
+
+
+
   /**
    * Handle PlayerDisconnect callback
    *
@@ -193,8 +194,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
   public function handlePlayerGiveUpCallback(BasePlayerTimeStructure $structure) {
-    var_dump($structure);
-    //$this->repository->saveRuntime($player, $map, $time);
+    $this->repository->saveRuntime($structure->getPlayer(), $this->getCurrentMap(), -1);
     $this->displayTimes();
   }
 
