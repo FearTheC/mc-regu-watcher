@@ -73,11 +73,13 @@ EOT;
 
   public function initPlayer(Player $player, Map $map)
   {
-    $player = $this->selectPlayer($player, $map);
+    $playerResult = $this->selectPlayer($player, $map);
 
     if (!$player) {
       $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
     }
+
+    var_dump($playerResult);
 
 
   }

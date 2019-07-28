@@ -175,8 +175,6 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
   public function handlePlayerConnect(Player $player)
   {
     $player = $this->repository->initPlayer($player, $this->getCurrentMap());
-
-
   }
 
 
