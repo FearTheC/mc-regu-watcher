@@ -83,13 +83,14 @@ EOT;
     $runColl = new PlayerRuntimesCollection($currentCursor);
 
     foreach($playerRow as $playerRuntime) {
-      var_dump(($playerRuntime[3], $playerRuntime[4]));
       $runColl->addRuntime($playerRuntime[3], $playerRuntime[4]);
     }
 
     $pl = new PlayerRuntimes($runColl, $player->index);
 
-    var_dump($runColl);
+    var_dump($pl);
+
+    return $pl;
 
 
   }
