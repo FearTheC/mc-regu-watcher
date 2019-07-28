@@ -22,6 +22,9 @@ class PlayerRuntimes
     $this->runtimesCollection = $runtimes;
   }
 
-
+  public function getPlayerId()
+  {
+    return $this->playerId;
+  }
 
 }
