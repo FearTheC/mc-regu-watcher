@@ -92,7 +92,7 @@ EOT;
 
   public function saveRuntime(Player $player, Map $map, int $time, $cursor)
   {
-    $result = $this->query(sprintf(self::INSERT_RUNTIME, $player->index, $map->index, $time, $cursor))
+    $result = $this->query(sprintf(self::INSERT_RUNTIME, $player->index, $map->index, $time, $cursor));
   }
 
 
