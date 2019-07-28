@@ -47,7 +47,7 @@ WHERE player.playerIndex = %d AND player.mapIndex = %d
 EOT;
 
   const INSERT_RUNTIME = <<<'EOT'
-INSERT INTO ftc_regularity_watcher_times (mapIndex, playerIndex, time, cursor_nb)
+INSERT INTO ftc_regularity_watcher_times (playerIndex, mapIndex, time, cursor_nb)
 VALUES (%1$d, %2$d, %3$d, %4$d)
 ON DUPLICATE KEY UPDATE time = %3$d
 EOT;
