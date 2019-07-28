@@ -183,6 +183,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
   {
     $playerRuntimes = $this->repository->initPlayer($player, $this->getCurrentMap());
     $this->players[$playerRuntimes->getPlayerId()] = $playerRuntimes;
+          $this->displayTimes();
   }
 
 
@@ -296,6 +297,14 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
       $frame = new Frame();
       $maniaLink->addChild($frame);
       $frame->setPosition($posX, $posY);
+
+
+      foreach ($this->players as $player) {
+        $playerReguFrame = new Frame();
+        $label = new LabelLine($playerReguFrame);
+        $labelLine->addLabelTextEntry('jkhkjhkjhkjh');
+        $labelLine->render();
+      }
 
 
       $this->maniaControl->getManialinkManager()->sendManialink($maniaLink, false);
