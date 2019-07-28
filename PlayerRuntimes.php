@@ -22,7 +22,7 @@ class PlayerRuntimes
     $this->runtimesCollection = $runtimes;
   }
 
-  public function getPlayerId()
+  public function getPlayerId() : int
   {
     return $this->playerId;
   }
