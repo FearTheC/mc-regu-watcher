@@ -41,7 +41,7 @@ VALUES (%d, %d);
 EOT;
 
   const SELECT_PLAYER = <<<'EOT'
-SELECT player.playerIndex, player.mapIndex, player.current_cursor, times.time FROM `%s` AS player
+SELECT player.playerIndex, player.mapIndex, player.current_cursor, times.time, times.cursor_nb FROM `%s` AS player
 LEFT JOIN ftc_regularity_watcher_times times ON times.mapIndex = player.mapIndex AND times.playerIndex = player.playerIndex
 WHERE player.playerIndex = %d AND player.mapIndex = %d
 EOT;
@@ -83,8 +83,7 @@ EOT;
     $runColl = new PlayerRuntimesCollection($currentCursor);
 
     foreach($playerRow as $playerRuntime) {
-      var_dump($playerRuntime);
-      $runColl->addRuntime($playerRuntime[3], $playerRuntime[2]);
+      $runColl->addRuntime($playerRuntime[3], $playerRuntime[4]);
     }
 
     $pl = new PlayerRuntimes($runColl, $player->index);
