@@ -299,11 +299,26 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
       $frame->setPosition($posX, $posY);
 
 
+      $i = 0;
       foreach ($this->players as $player) {
+        $i++;
+        $time = Formatter::formatTime("55482");
+
+        $y = -$i*$lineHeight;
+
         $playerReguFrame = new Frame();
-        $label = new LabelLine($playerReguFrame);
-        $labelLine->addLabelTextEntry('jkhkjhkjhkjh');
-        $labelLine->render();
+        $frame->addChild($playerReguFrame);
+        $playerReguFrame->setPosition(0, $y+13);
+
+        //Name
+        $nameLabel = new Label_Text();
+        $playerReguFrame->addChild($nameLabel);
+        $nameLabel->setHorizontalAlign($nameLabel::LEFT);
+        $nameLabel->setX($width * -0.4);
+        $nameLabel->setSize($width * 0.6, $lineHeight);
+        $nameLabel->setTextSize(1);
+        $nameLabel->setText('   ' . $this->maniaControl->getPlayerManager()->getPlayerByIndex($player->getPlayerId()));
+        $nameLabel->setTextEmboss(true);
       }
 
 
