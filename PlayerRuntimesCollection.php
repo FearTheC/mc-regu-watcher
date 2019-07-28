@@ -11,7 +11,7 @@ class PlayerRuntimesCollection
 
   private $currentCursor;
 
-  private function __construct($currentCursor)
+  public function __construct($currentCursor)
   {
     $this->currentCursor = $currentCursor;
   }
