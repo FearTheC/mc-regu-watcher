@@ -176,7 +176,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
   {
     $player = $this->repository->initPlayer($player, $this->getCurrentMap());
 
-    
+
   }
 
 
@@ -194,7 +194,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
 
   public function handlePlayerGiveUpCallback(BasePlayerTimeStructure $structure) {
-    $this->repository->saveRuntime($structure->getPlayer(), $this->getCurrentMap(), -1);
+    $this->repository->saveRuntime($structure->getPlayer(), $this->getCurrentMap(), -1, 0);
     $this->displayTimes();
   }
 
