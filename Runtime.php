@@ -1,6 +1,6 @@
 <?php
 
-namespace FearTheC\ReguWatcher;
+namespace FearTheC\MCReguWatcher;
 
 use ManiaControl\Maps\Map;
 use ManiaControl\Players\Player;

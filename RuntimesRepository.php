@@ -1,8 +1,8 @@
 <?php
 
-namespace FearTheC\ReguWatcher;
+namespace FearTheC\MCReguWatcher;
 
-use FearTheC\ReguWatcher\PlayerRuntimesCollection;
+use FearTheC\MCReguWatcher\PlayerRuntimesCollection;
 use ManiaControl\Players\Player;
 use ManiaControl\Maps\Map;
 

@@ -24,8 +24,8 @@ use ManiaControl\Plugins\Plugin;
 use ManiaControl\Settings\Setting;
 use ManiaControl\Settings\SettingManager;
 use ManiaControl\Utils\Formatter;
-use FearTheC\ReguWatcher\PlayerRuntimes;
-use FearTheC\ReguWatcher\RuntimesRepository;
+use FearTheC\MCReguWatcher\PlayerRuntimes;
+use FearTheC\MCReguWatcher\RuntimesRepository;
 
 /**
  * Live Regu
