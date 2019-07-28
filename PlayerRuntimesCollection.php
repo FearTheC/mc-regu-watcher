@@ -29,14 +29,14 @@ class PlayerRuntimesCollection
   public function addRuntime($runtime, $cursor = -1)
   {
     if ($cursor == -1) {
-      $this->incrementCursor();
       $cursor = $this->currentCursor;
+      $this->incrementCursor();
     }  else {
       $this->currentCursor = $cursor;
     }
 
 
-    $this->runtimes[$this->currentCursor] = $runtime;
+    $this->runtimes[$cursor] = $runtime;
   }
 
   private function incrementCursor()
