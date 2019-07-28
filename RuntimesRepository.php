@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `%s` (
      `mapIndex` int(11) NOT NULL,
      `playerIndex` int(11) NOT NULL,
      `time` int(11),
-     UNIQUE KEY `player_map_regu_times` (`mapIndex`,`playerIndex`)
+     UNIQUE KEY `player_map_regu_times` (`cursor_nb`, `mapIndex`, `playerIndex`)
   )
   ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1
 EOT;
