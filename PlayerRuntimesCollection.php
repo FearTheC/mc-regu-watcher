@@ -40,7 +40,7 @@ class PlayerRuntimesCollection
     return [$this->currentCursor, $runtime];
   }
 
-  private function getCurrentCursor()
+  public function getCurrentCursor()
   {
     return $this->currentCursor;
   }
