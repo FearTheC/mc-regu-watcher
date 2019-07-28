@@ -79,10 +79,20 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
    * @see \ManiaControl\Plugins\Plugin::load()
    */
   public function load(ManiaControl $maniaControl) {
-      $this->maniaControl = $maniaControl;
+    $this->maniaControl = $maniaControl;
 
-      $this->repository = new RuntimesRepository($mysqli = $this->maniaControl->getDatabase()->getMysqli());
-      $this->recordWidget = new RecordWidget($this->maniaControl);
+    $this->repository = new RuntimesRepository($mysqli = $this->maniaControl->getDatabase()->getMysqli());
+    $this->recordWidget = new RecordWidget($this->maniaControl);
+
+        $playerRuntimes = $this->repository->initPlayer($player, $this->getCurrentMap());
+        $this->players[$playerRuntimes->getPlayerId()] = $playerRuntimes;
+
+    $players = $this->maniaControl->getPlayerManager()->getPlayers();
+    foreach ($players as $player)
+    {
+      $playerRuntimes = $this->repository->initPlayer($player, $this->getCurrentMap());
+      $this->players[$playerRuntimes->getPlayerId()] = $playerRuntimes;
+    }
 
       // Callbacks
       $this->maniaControl->getCallbackManager()->registerCallbackListener(PlayerManager::CB_PLAYERCONNECT, $this, 'handlePlayerConnect');
