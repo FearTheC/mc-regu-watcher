@@ -1,6 +1,6 @@
 <?php
 
-namespace FearTheC\MCReguWatcher;
+namespace FearTheC\ReguWatcher;
 
 class PlayerRuntimesCollection
 {
