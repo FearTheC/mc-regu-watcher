@@ -87,7 +87,7 @@ EOT;
       $runColl->addRuntime($playerRuntime[3], $playerRuntime[2])
     }
 
-    $pl = new PlayerRuntimes($runColl, $player->index)
+    $pl = new PlayerRuntimes($runColl, $player->index);
 
     var_dump($pl);
 
