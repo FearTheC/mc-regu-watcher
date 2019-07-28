@@ -41,11 +41,16 @@ VALUES (%d, %d);
 EOT;
 
   const SELECT_PLAYER = <<<'EOT'
-SELECT * FROM `%s`
-LEFT JOIN ftc_regularity_watcher_times times ON times.mapIndex = mapIndex AND times.playerIndex = playerIndex
-WHERE playerIndex = %d AND mapIndex = %d
+SELECT * FROM `%s` AS player
+LEFT JOIN ftc_regularity_watcher_times times ON times.mapIndex = player.mapIndex AND times.playerIndex = player.playerIndex
+WHERE player.playerIndex = %d AND player.mapIndex = %d
 EOT;
 
+  const INSERT_RUNTIME = <<<'EOT'
+INSERT INTO ftc_regularity_watcher_times (mapIndex, playerIndex, time, cursor_nb)
+VALUES (%1$d, %2$d, %3$d, %4$d)
+ON DUPLICATE KEY UPDATE time = %3$d
+EOT;
 
   /**
    * @param \mysqli $mysqliClient
@@ -69,7 +74,6 @@ EOT;
   public function initPlayer(Player $player, Map $map)
   {
     $player = $this->selectPlayer($player, $map);
-    var_dump($player);
 
     if (!$player) {
       $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
@@ -83,6 +87,12 @@ EOT;
   {
     $result = $this->query(sprintf(self::SELECT_PLAYER, self::DB_TABLE, $player->index, $map->index));
     return $result->fetch_all();
+  }
+
+
+  public function saveRuntime(Player $player, Map $map, int $time, $cursor)
+  {
+    $result = $this->query(sprintf(self::INSERT_RUNTIME, $player->index, $map->index, $time, $cursor))
   }
 
 
