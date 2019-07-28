@@ -35,8 +35,14 @@ class PlayerRuntimesCollection
       $this->currentCursor = $cursor;
     }
 
-
     $this->runtimes[$cursor] = $runtime;
+
+    return [$this->currentCursor, $runtime];
+  }
+
+  private function getCurrentCursor()
+  {
+    return $this->currentCursor;
   }
 
   private function incrementCursor()

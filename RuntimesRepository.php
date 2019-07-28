@@ -88,11 +88,7 @@ EOT;
 
     $pl = new PlayerRuntimes($runColl, $player->index);
 
-    var_dump($pl);
-
     return $pl;
-
-
   }
 
 
