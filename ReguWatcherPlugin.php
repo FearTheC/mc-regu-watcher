@@ -318,7 +318,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
         $nameLabel->setX($width * -0.4);
         $nameLabel->setSize($width * 0.6, $lineHeight);
         $nameLabel->setTextSize(1);
-        var_dump($player);
+        var_dump($playerId);
         $nameLabel->setText('   ' . $this->maniaControl->getPlayerManager()->getPlayerByIndex($playerId));
         $nameLabel->setTextEmboss(true);
       }
