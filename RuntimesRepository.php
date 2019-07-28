@@ -75,7 +75,7 @@ EOT;
   {
     $playerResult = $this->selectPlayer($player, $map);
 
-    if (!$player) {
+    if (!$playerResult) {
       $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
     }
 
