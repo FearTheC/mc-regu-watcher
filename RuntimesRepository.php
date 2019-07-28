@@ -41,7 +41,7 @@ VALUES (%d, %d);
 EOT;
 
   const SELECT_PLAYER = <<<'EOT'
-SELECT * FROM `%s` AS player
+SELECT player.playerIndex, player.mapIndex, player.current_cursor, times.time FROM `%s` AS player
 LEFT JOIN ftc_regularity_watcher_times times ON times.mapIndex = player.mapIndex AND times.playerIndex = player.playerIndex
 WHERE player.playerIndex = %d AND player.mapIndex = %d
 EOT;
@@ -73,13 +73,23 @@ EOT;
 
   public function initPlayer(Player $player, Map $map)
   {
-    $playerResult = $this->selectPlayer($player, $map);
+    $playerRow = $this->selectPlayer($player, $map);
 
-    if (!$playerResult) {
+    if (!$playerRow) {
       $this->query(sprintf(self::INIT_PLAYER, self::DB_TABLE, $map->index, $player->index));
     }
 
-    var_dump($playerResult);
+    $currentCursor = $playerRow[0][2];
+
+    $runColl = new PlayerRuntimesCollection($currentCursor);
+
+    foreach($playerRow as $playerRuntime) {
+      $runColl->addRuntime($playerRuntime[3], $playerRuntime[2])
+    }
+
+    $pl = new PlayerRuntimes($runColl, $player->index)
+
+    var_dump($pl);
 
 
   }

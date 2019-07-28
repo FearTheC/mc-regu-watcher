@@ -15,14 +15,11 @@ class PlayerRuntimes
 
   private $playerId;
 
-  private $cursor;
 
-
-  public function __construct(PlayerRuntimesCollection $runtimes, $playerId, $cursor = 0)
+  public function __construct(PlayerRuntimesCollection $runtimes, $playerId)
   {
     $this->playerId = $playerId;
     $this->runtimesCollection = $runtimes;
-    $this->cursor = $cursor;
   }
 
 

@@ -11,9 +11,9 @@ class PlayerRuntimesCollection
 
   private $currentCursor;
 
-  private function __construct(array $runtimes)
+  private function __construct($currentCursor)
   {
-
+    $this->currentCursor = $currentCursor;
   }
 
 
@@ -26,9 +26,16 @@ class PlayerRuntimesCollection
     }
   }
 
-  public function addRuntime($runtime)
+  public function addRuntime($runtime, $cursor = -1)
   {
-    $this->incrementCursor();
+    if ($cursor == -1) {
+      $this->incrementCursor();
+      $cursor = $this->currentCursor;
+    }  else {
+      $this->currentCursor = $cursor;
+    }
+
+
     $this->runtimes[$this->currentCursor] = $runtime;
   }
 
