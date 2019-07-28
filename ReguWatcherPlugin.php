@@ -301,6 +301,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
 
       $i = 0;
       foreach ($this->players as $player) {
+        $playerId = $player->getPlayerId();
         $i++;
         $time = Formatter::formatTime("55482");
 
@@ -318,7 +319,7 @@ class ReguWatcherPlugin implements ManialinkPageAnswerListener, CallbackListener
         $nameLabel->setSize($width * 0.6, $lineHeight);
         $nameLabel->setTextSize(1);
         var_dump($player);
-        $nameLabel->setText('   ' . $this->maniaControl->getPlayerManager()->getPlayerByIndex($player->getPlayerId()));
+        $nameLabel->setText('   ' . $this->maniaControl->getPlayerManager()->getPlayerByIndex($playerId));
         $nameLabel->setTextEmboss(true);
       }
 
