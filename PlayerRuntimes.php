@@ -27,7 +27,7 @@ class PlayerRuntimes
     return $this->playerId;
   }
 
-  public function addRuntime(($runtime, $cursor = -1)) : int
+  public function addRuntime($runtime, $cursor = -1) : int
   {
     $this->runtimesCollection->addRuntime($runtime, $cursor);
 
